@@ -14,5 +14,16 @@ jobs:
 
 
     steps:
+     # Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
+
+# set up Nodejs environment        
+      - name: Set up Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+# Install dependencies
+      - name: Install dependencies
+        run: npm install          
