@@ -17,12 +17,19 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
+# Create user first
 RUN addgroup -g 1001 -S nodejs &&  adduser -S nodejs -u 1001
 
+# Copy with ownership to nodejs user
 COPY --from=dependencies --chown=nodejs:nodejs /app/node_modules ./node_modules
 
 COPY --chown=nodejs:nodejs . .
 
+
+# Set ownership of /app directory itself
+RUN chown -R nodejs:nodejs /app
+
+# Switch to non-root user
 USER nodejs
 
 EXPOSE 5000

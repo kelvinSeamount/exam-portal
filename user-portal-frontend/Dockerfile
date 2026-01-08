@@ -26,10 +26,16 @@ RUN addgroup -g 1003 -S userportal && adduser -S userportal -u 1003
 
 WORKDIR /app
 
+# Install serve
 RUN npm install -g serve
 
+# Copy build with ownership
 COPY --from=build --chown=userportal:userportal /app/build ./build
 
+# Set ownership of /app directory
+RUN chown -R userportal:userportal /app
+
+# Switch to non-root user
 USER userportal
 
 EXPOSE 3100

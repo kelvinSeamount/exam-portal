@@ -23,13 +23,18 @@ FROM node:18-alpine AS production
 
 ENV NODE_ENV=production
 
+# Create user first
 RUN addgroup -g 1002 -S frontend && adduser -S frontend -u 1002
 
 WORKDIR /app
 
+# Install serve
 RUN npm install -g serve
 
 COPY --from=build --chown=frontend:frontend /app/build ./build
+
+# Set ownership of /app directory
+RUN chown -R frontend:frontend /app
 
 USER frontend
 
